@@ -7,6 +7,14 @@ const vaciarCarritoBtn = document.querySelector('#vaciar-carrito')
 const listaCursos = document.querySelector('#lista-cursos')
 let articulosCarrito = []
 
+document.addEventListener('DOMContentLoaded', () => {
+    articulosCarrito = JSON.parse(localStorage.getItem('articulosCarrito')) || [];
+    carritoHTML();
+});
+
+function guardarArticulos() {
+    localStorage.setItem('articulosCarrito', JSON.stringify(articulosCarrito))
+}
 
 //  *** Listeners *** 
 cargarEventListeners()
@@ -21,7 +29,6 @@ function cargarEventListeners () {
     })
 }
 
-
 //  *** Funciones *** 
 
 // Función para añadir cursos al carrito
@@ -30,6 +37,7 @@ function añadirCurso(e) {
     if (e.target.classList.contains('agregar-carrito')) {  
         const curso = e.target.parentElement.parentElement 
         leerDatosCurso(curso)
+        guardarArticulos()
     }
  }
 
@@ -39,6 +47,7 @@ function añadirCurso(e) {
         const cursoId = e.target.getAttribute('data-id')
         articulosCarrito = articulosCarrito.filter((curso) => curso.id !== cursoId)
         carritoHTML(articulosCarrito)
+        guardarArticulos()
     }
  }
 
